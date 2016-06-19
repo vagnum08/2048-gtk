@@ -1,4 +1,5 @@
 # mywebserver.py
+#!/usr/bin/env python
 import BaseHTTPServer, SimpleHTTPServer, CGIHTTPServer
 
 class myRequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
