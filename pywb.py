@@ -54,14 +54,6 @@ class browser():
     def destroy(self,widget):
         subprocess.call(['killall', 'python'])
         gtk.main_quit()
-    def load_page(self, widget):
-        so_add = self.wow_address_bar.get_text()
-        if so_add.startswith('http://') or so_add.startswith('https://'):
-            self.webview.open(so_add)
-        else:
-            so_add = 'http://' + so_add
-            self.wow_address_bar.set_text(so_add)
-            self.webview.open(so_add)
 
     def change_title(self, widget, frame, title):
         self.window.set_title('GTK ' + title)
