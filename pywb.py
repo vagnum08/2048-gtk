@@ -28,7 +28,9 @@ import sys
 
 class browser():
 
-    def __init__(self):
+    def __init__(self,serverpid):
+        self.serverpid=serverpid
+        
         # Create window
         self.window = gtk.Window()
         self.window.set_icon_from_file('favicon.ico')
@@ -52,7 +54,8 @@ class browser():
         gtk.main()
 
     def destroy(self,widget):
-        subprocess.call(['killall', 'python'])
+        print 'killing server with pid: ' + self.serverpid
+        subprocess.call(['kill', '-9', self.serverpid])
         gtk.main_quit()
 
     def change_title(self, widget, frame, title):
@@ -64,4 +67,4 @@ class browser():
 
 
 if __name__ == '__main__':
-    web_browser = browser()
+    web_browser = browser(sys.argv[1])
