@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # MIT License
 #
-# Copyright (c) 2015 vagnum08
+# Copyright (c) 2017 vagnum08
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,26 +23,28 @@
 
 
 import gtk, webkit
-import subprocess
-import sys
+import os
+from pkg_resources import Requirement, resource_filename
 
-class browser():
+if os.path.exists('./app/'):
+    app_path = os.path.abspath('./app/')
+else:
+    app_path = resource_filename("pygtk2048", 'app')
+print(app_path)
 
-    def __init__(self,serverpid):
-        self.serverpid=serverpid
-        
+class gtk2048():
+    def __init__(self):
         # Create window
         self.window = gtk.Window()
-        self.window.set_icon_from_file('favicon.ico')
+        self.window.set_icon_from_file(os.path.join(app_path, 'favicon.ico'))
         self.window.connect('destroy', self.destroy)
         self.window.set_default_size(800, 800)
 
         # Create view for webpage
         self.view = gtk.ScrolledWindow()
         self.webview = webkit.WebView()
-        self.webview.open('http://localhost:8000/index.html')
+        self.webview.open(os.path.join(app_path, 'index.html'))
         self.webview.connect('title-changed', self.change_title)
-        self.webview.connect('load-committed', self.change_url)
         self.view.add(self.webview)
 
         # Add everything and initialize
@@ -53,18 +55,15 @@ class browser():
         self.window.show_all()
         gtk.main()
 
-    def destroy(self,widget):
-        print 'killing server with pid: ' + self.serverpid
-        subprocess.call(['kill', '-9', self.serverpid])
+    def destroy(self, widget):
         gtk.main_quit()
 
     def change_title(self, widget, frame, title):
         self.window.set_title('GTK ' + title)
 
-    def change_url(self, widget, frame):
-        uri = frame.get_uri()
-
+def main():
+    app = gtk2048()
 
 
 if __name__ == '__main__':
-    web_browser = browser(sys.argv[1])
+    main()

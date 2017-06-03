@@ -1,0 +1,1 @@
+recursive-include src/pygtk2048/app *
